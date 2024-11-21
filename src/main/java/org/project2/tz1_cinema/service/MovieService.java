@@ -1,8 +1,7 @@
 package org.project2.tz1_cinema.service;
 
-import org.project2.tz1_cinema.dto.ActorAddDto;
-import org.project2.tz1_cinema.dto.ActorDto;
-import org.project2.tz1_cinema.dto.MovieDto;
+import org.project2.tz1_cinema.dto.actor_Dto;
+import org.project2.tz1_cinema.dto.movie_Dto;
 import org.project2.tz1_cinema.model.Actor;
 import org.project2.tz1_cinema.model.Movie;
 import org.project2.tz1_cinema.repo.ActorRepo;
@@ -60,7 +59,7 @@ public class MovieService {
     public List<Movie> findByActor(Actor actor) {
         return movieRepo.findByActors(actor);  // Возвращаем список фильмов по актёру
     }
-    public Movie addMovie(MovieDto movieDto) {
+    public Movie addMovie(movie_Dto movieDto) {
         // Создаем новый объект фильма из DTO
         Movie movie = new Movie();
         movie.setTitle(movieDto.getTitle());
@@ -71,7 +70,7 @@ public class MovieService {
         // Список для хранения актеров, которые будут привязаны к фильму
         List<Actor> actors = new ArrayList<>();
 
-        for (ActorAddDto actor : movieDto.getActors()) {
+        for (actor_Dto actor : movieDto.getActors()) {
             Optional<Actor> existingActorOpt = Optional.ofNullable(actorRepo.findByFirstNameAndLastName(actor.getFirstName(), actor.getLastName()));
 
             // Проверяем, если актер уже есть в базе
@@ -95,7 +94,7 @@ public class MovieService {
     public void save(Movie movie){
         movieRepo.save(movie);
     }
-    public Actor convertActorDtoToActor(ActorAddDto actorDto) {
+    public Actor convertActorDtoToActor(actor_Dto actorDto) {
         Actor actor = new Actor();
         actor.setFirstName(actorDto.getFirstName());
         actor.setLastName(actorDto.getLastName());

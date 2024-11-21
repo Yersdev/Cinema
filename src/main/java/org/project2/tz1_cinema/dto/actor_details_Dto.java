@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ActorDto {
+public class actor_details_Dto {
     @NotEmpty(message = "Please, the name could not be empty")
     @Size(min = 3, max = 50, message = "Please, the name should be between 3 - 50 characters")
     private String firstName;

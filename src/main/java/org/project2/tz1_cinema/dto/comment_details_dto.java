@@ -3,13 +3,13 @@ package org.project2.tz1_cinema.dto;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserCommentsDto {
+public class comment_details_dto {
     private String username;          // Имя пользователя
     private String email;             // Email пользователя
     private Map<String, String> comments;  // Словарь с фильмами и комментариями
 
     // Конструкторы, геттеры и сеттеры
-    public UserCommentsDto(String username, String email) {
+    public comment_details_dto(String username, String email) {
         this.username = username;
         this.email = email;
         this.comments = new HashMap<>();

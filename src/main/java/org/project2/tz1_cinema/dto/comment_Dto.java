@@ -5,13 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.project2.tz1_cinema.model.Movie;
-import org.project2.tz1_cinema.model.Users;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentDto {
+public class comment_Dto {
     private Movie movie;
     private String comment;
     private UserDto userdto;

@@ -12,7 +12,7 @@ import org.project2.tz1_cinema.model.Director;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DirectorDto {
+public class director_details_Dto {
 
     private Integer id;
 
@@ -28,7 +28,7 @@ public class DirectorDto {
 
     private Director director;
 
-    public DirectorDto(int id, String firstName, String lastName, Integer yearOfBirth) {
+    public director_details_Dto(int id, String firstName, String lastName, Integer yearOfBirth) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
