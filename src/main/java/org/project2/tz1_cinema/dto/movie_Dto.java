@@ -13,7 +13,7 @@ public class movie_Dto {
     private String title;
     private String country;
     private String genre;
-    private int releaseYear;
+    private Integer releaseYear;
     private List<actor_Dto> actors;
     private director_Dto director;
 }

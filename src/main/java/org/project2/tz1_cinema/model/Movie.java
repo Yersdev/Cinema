@@ -22,7 +22,7 @@ import java.util.List;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(nullable = false, length = 150)
     @Size(max = 150, message = "The title could not have more than 150 characters")
     private String title;
@@ -39,7 +39,7 @@ public class Movie {
     @JoinColumn(name = "director_id")
     private Director director;
     @Column(name = "release_year")
-    private int releaseYear;
+    private Integer releaseYear;
     private String country;
     private String genre;
     @JsonManagedReference

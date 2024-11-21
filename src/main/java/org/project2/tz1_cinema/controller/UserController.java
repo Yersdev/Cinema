@@ -119,6 +119,15 @@ public class UserController {
         return new ResponseEntity<>(userCommentsDto, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/{id}/addComment", consumes = "application/json")
+    public ResponseEntity<Movie> addMovie(@PathVariable Integer id, @RequestBody movie_Dto movieDto) {
+        Movie movie = movieRepo.findById(id).orElse(null);
+        if (movie == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
 
 //
 //        @PostMapping("/add")
