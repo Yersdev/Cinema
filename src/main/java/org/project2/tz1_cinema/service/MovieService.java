@@ -3,6 +3,7 @@ package org.project2.tz1_cinema.service;
 import org.project2.tz1_cinema.dto.actor_Dto;
 import org.project2.tz1_cinema.dto.movie_Dto;
 import org.project2.tz1_cinema.model.Actor;
+import org.project2.tz1_cinema.model.Comment;
 import org.project2.tz1_cinema.model.Movie;
 import org.project2.tz1_cinema.repo.ActorRepo;
 import org.project2.tz1_cinema.repo.MovieRepo;
@@ -22,6 +23,9 @@ public class MovieService {
     public MovieService(MovieRepo movieRepo, ActorRepo actorRepo) {
         this.movieRepo = movieRepo;
         this.actorRepo = actorRepo;
+    }
+    public Movie getMovieByTitle(String title) {
+        return movieRepo.findByTitle(title).orElse(null);
     }
 
     // Метод для получения всех фильмов
@@ -100,5 +104,8 @@ public class MovieService {
         actor.setLastName(actorDto.getLastName());
         actor.setYearOfBirth(actorDto.getYearOfBirth());
         return actor;
+    }
+    public void updateComment(Comment comment) {
+
     }
 }

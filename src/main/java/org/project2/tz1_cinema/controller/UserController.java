@@ -1,11 +1,14 @@
 package org.project2.tz1_cinema.controller;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.project2.tz1_cinema.dto.*;
 import org.project2.tz1_cinema.model.*;
 import org.project2.tz1_cinema.repo.ActorRepo;
+import org.project2.tz1_cinema.repo.CommentRepo;
 import org.project2.tz1_cinema.repo.MovieRepo;
 import org.project2.tz1_cinema.repo.UserRepo;
 import org.project2.tz1_cinema.service.MovieService;
+import org.project2.tz1_cinema.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +23,16 @@ public class UserController {
     private final MovieService movieService;
     private final ActorRepo actorRepo;
     private final UserRepo userRepo;
+    private final CommentRepo commentRepo;
+    private final UserService userService;
 
-    public UserController(MovieRepo movieRepo, MovieService movieService, ActorRepo actorRepo, UserRepo userRepo) {
+    public UserController(MovieRepo movieRepo, MovieService movieService, ActorRepo actorRepo, UserRepo userRepo, CommentRepo commentRepo, UserService userService) {
         this.movieRepo = movieRepo;
         this.movieService = movieService;
         this.actorRepo = actorRepo;
         this.userRepo = userRepo;
+        this.commentRepo = commentRepo;
+        this.userService = userService;
     }
 
     @GetMapping("/movies")
@@ -100,34 +107,65 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<comment_details_dto> getUserComments(@PathVariable int id) {
+    public ResponseEntity<List<Comment>> getUserComments(@PathVariable int id) {
         Users user = userRepo.findById(id).orElse(null); // Используем Optional для удобства
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Возвращаем 404, если пользователь не найден
         }
+       userService.getComments(user);
+//
+//        comment_details_dto userCommentsDto = new comment_details_dto(user.getName(), user.getLast_name(), user.getEmail());
+//
+//        List<Comment> comments = user.getComments();
+//
+//        for (Comment comment : comments) {
+//            String movieTitle = comment.getMovie().getTitle();  // Название фильма
+//            String userComment = comment.getComment(); // Текст комментария
+//            userCommentsDto.setComments(userComment);
+//        }
 
-        comment_details_dto userCommentsDto = new comment_details_dto(user.getName(), user.getEmail());
-
-        List<Comment> comments = user.getComments();
-
-        for (Comment comment : comments) {
-            String movieTitle = comment.getMovie().getTitle();  // Название фильма
-            String userComment = comment.getComment(); // Текст комментария
-            userCommentsDto.addComment(movieTitle, userComment);
-        }
-
-        return new ResponseEntity<>(userCommentsDto, HttpStatus.OK);
+        return new ResponseEntity<>(userService.getComments(user), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/{id}/addComment", consumes = "application/json")
-    public ResponseEntity<Movie> addMovie(@PathVariable Integer id, @RequestBody movie_Dto movieDto) {
-        Movie movie = movieRepo.findById(id).orElse(null);
+    @PostMapping(value = "/{idCinema}/addComment", consumes = "application/json")
+    public ResponseEntity<Comment> addMovie(@RequestBody comment_details_dto dto,
+                                            @PathVariable Integer idCinema) {
+        System.out.println(":::::::::::::::::::::::::::::::::::::::::::::");
+        System.out.println(dto);
+        System.out.println(":::::::::::::::::::::::::::::::::::::::::::::");
+
+        commentToFilm_Dto commentToFilm_Dto = new commentToFilm_Dto();
+        Movie movie = movieRepo.findById(idCinema).orElse(null);
+
         if (movie == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Movie not found
+        }
+
+
+        if(!userRepo.existsByName(dto.getFirstName())) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-    }
 
+        Movie movie1 = movieRepo.findById(idCinema)
+                .orElseThrow(() -> new EntityNotFoundException("Movie with ID " + idCinema + " not found"));
+
+        // Проверка на существование пользователя
+        Users user = userRepo.findById(userRepo.findUsersByEmail(dto.getEmail()).getId())
+                .orElseThrow(() -> new EntityNotFoundException("User with ID " + userRepo.findUsersByEmail(dto.getEmail()).getId() + " not found"));
+
+        // Создание нового комментария
+        Comment newComment = new Comment();
+        newComment.setComment(dto.getComments());
+        newComment.setMovie(movie);
+        newComment.setUsers(user);
+
+        // Сохранение комментария
+        commentRepo.save(newComment);
+
+   // Step 4: Return the updated movie
+        return new ResponseEntity<>(newComment, HttpStatus.OK);
+    }
 
 //
 //        @PostMapping("/add")

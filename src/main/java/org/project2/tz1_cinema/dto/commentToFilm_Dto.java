@@ -7,8 +7,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class UserDto {
-    private String name;
-    private String last_name;
-    private String email;
+public class commentToFilm_Dto {
+    private String comment;
+    private String film_name;
+    private UserDto user;
 }
