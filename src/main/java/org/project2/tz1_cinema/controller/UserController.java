@@ -119,8 +119,8 @@ public class UserController {
 //        List<Comment> comments = user.getComments();
 //
 //        for (Comment comment : comments) {
-//            String movieTitle = comment.getMovie().getTitle();  // Название фильма
-//            String userComment = comment.getComment(); // Текст комментария
+//            String movieTitle = comment.getMovie().getTitle();
+//            String userComment = comment.getComment();
 //            userCommentsDto.setComments(userComment);
 //        }
 
@@ -130,15 +130,10 @@ public class UserController {
     @PostMapping(value = "/{idCinema}/addComment", consumes = "application/json")
     public ResponseEntity<Comment> addMovie(@RequestBody comment_details_dto dto,
                                             @PathVariable Integer idCinema) {
-        System.out.println(":::::::::::::::::::::::::::::::::::::::::::::");
-        System.out.println(dto);
-        System.out.println(":::::::::::::::::::::::::::::::::::::::::::::");
-
-        commentToFilm_Dto commentToFilm_Dto = new commentToFilm_Dto();
         Movie movie = movieRepo.findById(idCinema).orElse(null);
 
         if (movie == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Movie not found
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
 
@@ -150,20 +145,17 @@ public class UserController {
         Movie movie1 = movieRepo.findById(idCinema)
                 .orElseThrow(() -> new EntityNotFoundException("Movie with ID " + idCinema + " not found"));
 
-        // Проверка на существование пользователя
         Users user = userRepo.findById(userRepo.findUsersByEmail(dto.getEmail()).getId())
                 .orElseThrow(() -> new EntityNotFoundException("User with ID " + userRepo.findUsersByEmail(dto.getEmail()).getId() + " not found"));
 
-        // Создание нового комментария
         Comment newComment = new Comment();
         newComment.setComment(dto.getComments());
         newComment.setMovie(movie);
+
         newComment.setUsers(user);
 
-        // Сохранение комментария
         commentRepo.save(newComment);
 
-   // Step 4: Return the updated movie
         return new ResponseEntity<>(newComment, HttpStatus.OK);
     }
 
@@ -198,7 +190,7 @@ public class UserController {
             movieDto.setTitle(movie.getTitle());
             List<actor_Dto> actorDtos = new ArrayList<>();
             for (Actor actor : movie.getActors()) {
-                actorDtos.add(actorConvertToDto(actor));// Один список актеров для каждого фильма
+                actorDtos.add(actorConvertToDto(actor));
             }
             movieDto.setActors(actorDtos);
             movieDto.setDirector(directorDtoConvertToDto(movie.getDirector()));

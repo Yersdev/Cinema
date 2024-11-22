@@ -1,6 +1,5 @@
 package org.project2.tz1_cinema.service;
 
-import org.hibernate.annotations.Comments;
 import org.project2.tz1_cinema.model.Comment;
 import org.project2.tz1_cinema.model.Users;
 import org.project2.tz1_cinema.repo.CommentRepo;
@@ -30,20 +29,13 @@ public class UserService {
 
     @Transactional
     public void saveComment(Users user, Comment comment) {
-        // Добавление комментария в список комментариев пользователя
         List<Comment> comments = user.getComments();
-        comments.add(comment);  // Добавляем комментарий в список пользователя
+        comments.add(comment);
 
-        // Устанавливаем пользователя для комментария
         comment.setUsers(user);
-        // Если необходимо, устанавливаем фильм для комментария
-        // comment.setMovie(movie);
-
-        // Сохраняем комментарий через репозиторий
         commentRepo.save(comment);
 
-        // Также можно сохранить обновленный пользовательский объект (если это необходимо)
-        userRepo.save(user);  // Если вы хотите, чтобы изменения были зафиксированы (не обязательно)
+        userRepo.save(user);
     }
 
     public List<Comment> getComments(Users user) {

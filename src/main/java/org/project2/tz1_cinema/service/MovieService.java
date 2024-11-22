@@ -28,17 +28,14 @@ public class MovieService {
         return movieRepo.findByTitle(title).orElse(null);
     }
 
-    // Метод для получения всех фильмов
     public List<Movie> getAllMovies() {
         return movieRepo.findAll();
     }
 
-    // Метод для получения фильма по ID
     public Movie getMovieById(int id) {
-        return movieRepo.findById(id).orElse(null);  // Лучше использовать orElse(null), чтобы избежать исключений
+        return movieRepo.findById(id).orElse(null);
     }
 
-    // Метод для добавления фильма
     public Movie addMovie(Movie movie) {
         return movieRepo.save(movie);
     }
@@ -47,52 +44,38 @@ public class MovieService {
         return movieRepo.getMovieByReleaseYear(year);
     }
 
-    // Метод для обновления фильма
     public Movie updateMovie(Movie movie) {
         return movieRepo.save(movie);
     }
 
-    // Метод для удаления фильма
     public void deleteMovie(int id) {
         movieRepo.deleteById(id);
     }
     public List<Movie> releaseDate(int releaseData){
         return movieRepo.findByRelease_data(releaseData);
     }
-    // Метод для получения фильмов по актёру
     public List<Movie> findByActor(Actor actor) {
-        return movieRepo.findByActors(actor);  // Возвращаем список фильмов по актёру
+        return movieRepo.findByActors(actor);
     }
     public Movie addMovie(movie_Dto movieDto) {
-        // Создаем новый объект фильма из DTO
         Movie movie = new Movie();
         movie.setTitle(movieDto.getTitle());
         movie.setReleaseYear(movieDto.getReleaseYear());
         movie.setCountry(movieDto.getCountry());
         movie.setGenre(movieDto.getGenre());
 
-        // Список для хранения актеров, которые будут привязаны к фильму
         List<Actor> actors = new ArrayList<>();
 
         for (actor_Dto actor : movieDto.getActors()) {
             Optional<Actor> existingActorOpt = Optional.ofNullable(actorRepo.findByFirstNameAndLastName(actor.getFirstName(), actor.getLastName()));
 
-            // Проверяем, если актер уже есть в базе
             Actor actorToAdd;
-            if (existingActorOpt.isPresent()) {
-                actorToAdd = existingActorOpt.get();
-            } else {
-                // Если актера нет в базе, добавляем его
-
-                actorToAdd = actorRepo.save(convertActorDtoToActor(actor));  // Сохраняем нового актера в базе
-            }
+            actorToAdd = existingActorOpt.orElseGet(() -> actorRepo.save(convertActorDtoToActor(actor)));
             actors.add(actorToAdd);
         }
 
-        // Устанавливаем актеров для фильма
         movie.setActors(actors);
 
-        // Сохраняем фильм
         return movieRepo.save(movie);
     }
     public void save(Movie movie){

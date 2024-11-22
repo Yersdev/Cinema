@@ -20,21 +20,17 @@ public class CommentService {
 
     @Transactional
     public Comment createComment(String content, Integer movieId, Integer userId) {
-        // Проверка на существование фильма
         Movie movie = movieRepo.findById(movieId)
                 .orElseThrow(() -> new EntityNotFoundException("Movie with ID " + movieId + " not found"));
 
-        // Проверка на существование пользователя
         Users user = userRepo.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User with ID " + userId + " not found"));
 
-        // Создание нового комментария
         Comment newComment = new Comment();
         newComment.setComment(content);
         newComment.setMovie(movie);
         newComment.setUsers(user);
 
-        // Сохранение комментария
         return commentRepo.save(newComment);
     }
 

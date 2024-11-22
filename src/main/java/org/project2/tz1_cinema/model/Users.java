@@ -25,8 +25,8 @@ public class Users {
     @Column(nullable = false, unique = true)
     @Email(message = "PLease write a valid email")
     private String email;
-    @Enumerated(EnumType.STRING)  // Указываем, что роль будет храниться как строка в базе данных
+    @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY) // связь с комментариями
+    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private List<Comment> comments;
 }

@@ -16,14 +16,14 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)  // связь с фильмом
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
-    @JoinColumn(name = "movie_id", nullable = false)  // внешний ключ на фильм
+    @JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER)  // связь с пользователем
-    @JoinColumn(name = "user_id", nullable = false)  // внешний ключ на пользователя
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
     private Users users;
 
     private String comment;

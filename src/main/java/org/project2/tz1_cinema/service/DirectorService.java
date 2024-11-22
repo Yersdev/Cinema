@@ -17,13 +17,11 @@ public class DirectorService {
         this.repo = repo;
     }
 
-    // Получаем режиссера по ID
     public Director getDirector(int id) {
         Optional<Director> director = repo.findById(id);
         return director.orElse(null);
     }
 
-    // Сохранение нового или обновление существующего режиссера
     public Director save(Director director) {
         return repo.save(director);
     }

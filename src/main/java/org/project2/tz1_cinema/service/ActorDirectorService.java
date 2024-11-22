@@ -1,9 +1,7 @@
 package org.project2.tz1_cinema.service;
 
 import org.project2.tz1_cinema.dto.actor_Dto;
-import org.project2.tz1_cinema.dto.director_details_Dto;
 import org.project2.tz1_cinema.model.Actor;
-import org.project2.tz1_cinema.model.Director;
 import org.project2.tz1_cinema.repo.ActorRepo;
 import org.project2.tz1_cinema.repo.DirectorRepo;
 import org.springframework.beans.factory.annotation.Autowired;

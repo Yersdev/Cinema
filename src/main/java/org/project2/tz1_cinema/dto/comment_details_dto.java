@@ -1,10 +1,6 @@
 package org.project2.tz1_cinema.dto;
 
 import lombok.*;
-import org.project2.tz1_cinema.model.Movie;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -13,10 +9,10 @@ import java.util.Map;
 @ToString
 public class comment_details_dto {
     private String movie_title;
-    private String firstName;          // Имя пользователя
-    private String lastName;          // Имя пользователя
-    private String email;             // Email пользователя
-    private String comments;  // Словарь с фильмами и комментариями
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String comments;
 
     public comment_details_dto(String firsName, String lastName, String email) {
         this.firstName = firsName;
@@ -24,8 +20,5 @@ public class comment_details_dto {
         this.email = email;
     }
 
-    // Конструкторы, геттеры и сеттеры
-
-    // Добавить комментарий для фильма
 
 }
