@@ -1,5 +1,6 @@
 package org.project2.tz1_cinema.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.project2.tz1_cinema.dto.actor_Dto;
 import org.project2.tz1_cinema.dto.movie_Dto;
 import org.project2.tz1_cinema.model.Actor;
@@ -9,12 +10,14 @@ import org.project2.tz1_cinema.repo.ActorRepo;
 import org.project2.tz1_cinema.repo.MovieRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class MovieService {
     private final MovieRepo movieRepo;
     private final ActorRepo actorRepo;
@@ -25,15 +28,18 @@ public class MovieService {
         this.actorRepo = actorRepo;
     }
     public Movie getMovieByTitle(String title) {
+        log.info("getMovieByTitle: {}", title);
         return movieRepo.findByTitle(title).orElse(null);
     }
 
     public List<Movie> getAllMovies() {
+        log.info("getAllMovies");
         return movieRepo.findAll();
     }
 
 
     public Movie getMovieById(int id) {
+        log.info("getMovieById: {}", id);
         return movieRepo.findById(id).orElse(null);
     }
 
@@ -42,6 +48,7 @@ public class MovieService {
     }
 
     public List<Movie> getByReleaseYear(int year) {
+        log.info("getByReleaseYear: {}", year);
         return movieRepo.getMovieByReleaseYear(year);
     }
 
@@ -79,10 +86,13 @@ public class MovieService {
 
         return movieRepo.save(movie);
     }
+    @Transactional
     public void save(Movie movie){
+        log.info("save: {}", movie);
         movieRepo.save(movie);
     }
     public Actor convertActorDtoToActor(actor_Dto actorDto) {
+        log.info("convertActorDtoToActor: {}", actorDto);
         Actor actor = new Actor();
         actor.setFirstName(actorDto.getFirstName());
         actor.setLastName(actorDto.getLastName());

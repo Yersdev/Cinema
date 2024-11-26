@@ -1,5 +1,6 @@
 package org.project2.tz1_cinema.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.project2.tz1_cinema.dto.RegisterDTO;
 import org.project2.tz1_cinema.model.Comment;
 import org.project2.tz1_cinema.model.Role;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Slf4j
 public class UserService {
     @Autowired
     private final UserRepo userRepo;
@@ -44,6 +46,7 @@ public class UserService {
 
     @Transactional
     public void saveComment(Users user, Comment comment) {
+        log.info("saving comment for {}", comment);
         List<Comment> comments = user.getComments();
         comments.add(comment);
 
@@ -54,6 +57,7 @@ public class UserService {
     }
 
     public List<Comment> getComments(Users user) {
+        log.info("getting comments for {}", user);
         return user.getComments();
     }
 

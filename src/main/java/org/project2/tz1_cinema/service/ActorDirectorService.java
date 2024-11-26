@@ -22,6 +22,7 @@ public class ActorDirectorService {
     }
 
     public void addActor(actor_Dto actorDto) {
+        log.info("actorDto: {}", actorDto);
         Actor actor = new Actor();
         actor.setFirstName(actorDto.getFirstName());
         actor.setLastName(actorDto.getLastName());

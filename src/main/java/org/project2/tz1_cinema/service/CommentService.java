@@ -1,6 +1,7 @@
 package org.project2.tz1_cinema.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.project2.tz1_cinema.model.Comment;
 import org.project2.tz1_cinema.model.Movie;
 import org.project2.tz1_cinema.model.Users;
@@ -9,6 +10,7 @@ import org.project2.tz1_cinema.repo.MovieRepo;
 import org.project2.tz1_cinema.repo.UserRepo;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 public class CommentService {
     private CommentRepo commentRepo;
     private final MovieRepo movieRepo;
@@ -19,7 +21,9 @@ public class CommentService {
     }
 
     @Transactional
+
     public Comment createComment(String content, Integer movieId, Integer userId) {
+    log.info("Comment created with content:" + content, movieId, userId);
         Movie movie = movieRepo.findById(movieId)
                 .orElseThrow(() -> new EntityNotFoundException("Movie with ID " + movieId + " not found"));
 

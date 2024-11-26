@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@PreAuthorize("hasRole('USER')")
-@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -39,7 +37,6 @@ public class UserController {
         }
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
-
     @GetMapping("/movies/{year}")
     public ResponseEntity<List<movie_Dto>> getMoviesByYear(@PathVariable int year) {
         List<Movie> movies = movieService.getByReleaseYear(year);
