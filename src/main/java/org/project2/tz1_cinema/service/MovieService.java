@@ -32,6 +32,7 @@ public class MovieService {
         return movieRepo.findAll();
     }
 
+
     public Movie getMovieById(int id) {
         return movieRepo.findById(id).orElse(null);
     }

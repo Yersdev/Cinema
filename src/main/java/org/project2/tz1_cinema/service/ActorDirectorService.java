@@ -1,5 +1,6 @@
 package org.project2.tz1_cinema.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.project2.tz1_cinema.dto.actor_Dto;
 import org.project2.tz1_cinema.model.Actor;
 import org.project2.tz1_cinema.repo.ActorRepo;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class ActorDirectorService {
 
     private final ActorRepo actorRepository;

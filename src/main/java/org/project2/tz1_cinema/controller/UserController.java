@@ -1,6 +1,7 @@
 package org.project2.tz1_cinema.controller;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.project2.tz1_cinema.dto.*;
 import org.project2.tz1_cinema.model.*;
 import org.project2.tz1_cinema.repo.ActorRepo;
@@ -11,12 +12,15 @@ import org.project2.tz1_cinema.service.MovieService;
 import org.project2.tz1_cinema.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @RestController
+@PreAuthorize("hasRole('USER')")
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController {
 
     private final MovieRepo movieRepo;
@@ -26,14 +30,6 @@ public class UserController {
     private final CommentRepo commentRepo;
     private final UserService userService;
 
-    public UserController(MovieRepo movieRepo, MovieService movieService, ActorRepo actorRepo, UserRepo userRepo, CommentRepo commentRepo, UserService userService) {
-        this.movieRepo = movieRepo;
-        this.movieService = movieService;
-        this.actorRepo = actorRepo;
-        this.userRepo = userRepo;
-        this.commentRepo = commentRepo;
-        this.userService = userService;
-    }
 
     @GetMapping("/movies")
     public ResponseEntity<List<movie_Dto>> getAllMovies() {
@@ -73,6 +69,7 @@ public class UserController {
 
         return new ResponseEntity<>(actorDtos, HttpStatus.OK);
     }
+
 
     @GetMapping("/movies/{movieId}/comments")
     public ResponseEntity<List<comment_Dto>> getCommentsByMovie(@PathVariable int movieId) {
@@ -162,17 +159,17 @@ public class UserController {
 //
 //        @PostMapping("/add")
 //        public ResponseEntity<String> addReview(@RequestBody ReviewDto reviewDto, @RequestHeader("Authorization") String token) {
-//            // Проверка на наличие токена и авторизацию пользователя
+//
 //            if (token == null || !userService.isValidToken(token)) {
 //                return new ResponseEntity<>("User not authorized", HttpStatus.UNAUTHORIZED);
 //            }
 //
-//            // Валидация данных отзыва
+//
 //            if (reviewDto.getRating() < 1 || reviewDto.getRating() > 5) {
 //                return new ResponseEntity<>("Rating must be between 1 and 5", HttpStatus.BAD_REQUEST);
 //            }
 //
-//            // Добавление отзыва
+//
 //            reviewService.addReview(reviewDto);
 //            return new ResponseEntity<>("Review added successfully", HttpStatus.CREATED);
 //        }
