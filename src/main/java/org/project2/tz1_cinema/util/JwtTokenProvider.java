@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-@Component
+@Component("jwtTokenProvider") // Используем уникальное имя для компонента
 public class JwtTokenProvider {
 
     private static final String SECRET_KEY = "yourSecretKeyHere";
