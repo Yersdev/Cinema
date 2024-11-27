@@ -32,19 +32,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String token = getJwtFromRequest(request);
 
-        if (token != null && jwtTokenProvider.validateToken(token)) {
-            String username = jwtTokenProvider.getUsernameFromToken(token);
-            UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+        try {
+            if (token != null && jwtTokenProvider.validateToken(token)) {
+                String username = jwtTokenProvider.getUsernameFromToken(token);
+                UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
 
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+        } catch (Exception ex) {
+            // Логирование исключений для диагностики проблем
+            logger.error("JWT токен невалиден: {}" + ex.getMessage());
         }
 
         filterChain.doFilter(request, response);
     }
+
 
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
