@@ -31,4 +31,5 @@ public interface MovieRepo extends JpaRepository<Movie, Integer> {
 
     Movie getById(int id);
 
+    Optional<Movie> findByCountry(String country);
 }

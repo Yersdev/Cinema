@@ -15,7 +15,7 @@ import java.util.List;
 @ToString
 public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column(nullable = false)
     private String name;
@@ -27,6 +27,6 @@ public class Users {
     private String email;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
     private List<Comment> comments;
 }

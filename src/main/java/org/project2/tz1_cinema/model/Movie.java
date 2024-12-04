@@ -19,7 +19,7 @@ import java.util.List;
 @ToString
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @Column(nullable = false, length = 150)
     @Size(max = 150, message = "The title could not have more than 150 characters")
